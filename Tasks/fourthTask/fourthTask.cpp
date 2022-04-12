@@ -23,41 +23,6 @@ enum RESULTCODE {
 	STOP
 };
 
-void quickSort(vector<string> &arr, int first, int last, uint64_t &Cf, uint64_t &Mf) {
-	int i = first, j = last;
-	string x = arr[(first + last)/2];
-
-	auto begin = chrono::steady_clock::now();
-	do {
-		while (stoi(arr[i]) < stoi(x)) {
-			i++;
-			Cf++;
-		}
-		Cf++;
-
-		while (stoi(arr[j]) > stoi(x)) {
-			j--;
-			Cf++;
-		}
-		Cf++;
-
-		if(i <= j) {
-			Cf++;
-			if (stoi(arr[i]) > stoi(arr[j])) {
-				std::swap(arr[i], arr[j]);
-				Mf += 3;
-			}
-			i++; j--;
-		}
-	} while (i <= j);
-
-	if (i < last)
-		quickSort(arr, i, last, Cf, Mf);
-
-	if (first < j)
-		quickSort(arr, first, j, Cf, Mf);
-}
-
 // region Product
 struct Product{
 	string name; //Наименование товара
@@ -65,7 +30,14 @@ struct Product{
 	int count; //(в штуках)
 };
 
-string DIR_RESOURCES = "/Users/andrew1481432/Desktop/Учеба/Уник/семестр_2/сиаод/практика_4/resources/";
+// if (prA2.countryIm.compare(prA1.countryIm)>0) { // a1 < a2
+bool operator < (Product &p1, Product &p2) {
+	return p2.countryIm.compare(p1.countryIm)>0;
+}
+
+bool operator > (Product &p1, Product &p2) { // a1 > a2
+	return p1.countryIm.compare(p2.countryIm)>0;
+}
 
 vector<string> split(const string& s, char delim) {
 	vector<string> res;
@@ -86,9 +58,51 @@ Product parseProduct(string raw) {
 	return result;
 }
 
-// todo со своим вариком протестить и сделать отчет :)
+// endregion
 
-// if (prA2.countryIm.compare(prA1.countryIm)>0) { // если число из файла B меньше чем у C a1 < a2
+void quickSort(vector<string> &arr, int first, int last, uint64_t &Cf, uint64_t &Mf) {
+	int i = first, j = last;
+	string x = arr[(first + last)/2];
+	Product prX = parseProduct(x);
+
+	do {
+		Product prArrI = parseProduct(arr[i]);
+		while (prArrI < prX) {
+			i++;
+			prArrI = parseProduct(arr[i]);
+			Cf++;
+		}
+		Cf++;
+
+		Product prArrJ = parseProduct(arr[j]);
+		while (prArrJ > prX) {
+			j--;
+			prArrJ = parseProduct(arr[j]);
+			Cf++;
+		}
+		Cf++;
+
+		if(i <= j) {
+			Cf++;
+
+			prArrI = parseProduct(arr[i]);
+			prArrJ = parseProduct(arr[j]);
+			if (prArrI > prArrJ) {
+				std::swap(arr[i], arr[j]);
+				Mf += 3;
+			}
+			i++; j--;
+		}
+	} while (i <= j);
+
+	if (i < last)
+		quickSort(arr, i, last, Cf, Mf);
+
+	if (first < j)
+		quickSort(arr, first, j, Cf, Mf);
+}
+
+string DIR_RESOURCES = "/Users/andrew1481432/Desktop/Учеба/Уник/семестр_2/сиаод/практика_4/resources/";
 
 // region Алгоритм естественного слияния
 
@@ -108,7 +122,9 @@ void mergeSeriesOnFile(fstream &A, fstream &B, fstream &C, uint64_t &Cf, uint64_
 			}
 			buf.push_back(lastElB);
 			while (getline(B, currentEl)) {
-				if (stoi(lastElB) > stoi(currentEl) && !C.eof()) {
+				Product prLast = parseProduct(lastElB);
+				Product prCurrent = parseProduct(currentEl);
+				if (prLast > prCurrent && !C.eof()) {
 					lastElB = currentEl;
 					break;
 				}
@@ -124,7 +140,9 @@ void mergeSeriesOnFile(fstream &A, fstream &B, fstream &C, uint64_t &Cf, uint64_
 			}
 			buf.push_back(lastElC);
 			while (getline(C, currentEl)){
-				if (stoi(lastElC) > stoi(currentEl) && !B.eof()){
+				Product prLast = parseProduct(lastElB);
+				Product prCurrent = parseProduct(currentEl);
+				if (prLast > prCurrent && !B.eof()){
 					lastElC = currentEl;
 					break;
 				}
@@ -154,15 +172,17 @@ void mergeSeriesOnFile(fstream &A, fstream &B, fstream &C, uint64_t &Cf, uint64_
 		cout << "Error::Ошибка с чтения файла A.txt" << endl;
 		return;
 	}
+	Product prTemp = parseProduct(temp);
 	cout << "A: ";
-	cout << temp;
+	cout << prTemp.countryIm;
 	while(getline(A, temp1)) {
-		//cout << parseProduct(temp).countryIm << " ";
-		if(stoi(temp) > stoi(temp1)) {
+		prTemp = parseProduct(temp);
+		Product prTemp1 = parseProduct(temp1);
+		if(prTemp > prTemp1) {
 			cout << "’";
 		}
 		cout << " ";
-		cout << temp1;
+		cout << prTemp.countryIm;
 		temp = temp1;
 	}
 	cout << endl;
@@ -184,9 +204,9 @@ int breakingSeriesOnFile(fstream &A, fstream &B, fstream &C, uint64_t &Cf, uint6
 	int switchCounter = 0;
 	while(getline(A, temp1)) {
 		Cf++;
-
-		//cout << stoi(temp) << " < " << stoi(temp1) << endl;
-		if(stoi(temp) > stoi(temp1)) {
+		Product prTemp = parseProduct(temp);
+		Product prTemp1 = parseProduct(temp1);
+		if(prTemp > prTemp1) {
 			isBWrite = !isBWrite;
 			switchCounter++;
 		}
@@ -215,15 +235,17 @@ int breakingSeriesOnFile(fstream &A, fstream &B, fstream &C, uint64_t &Cf, uint6
 		cout << "Error::Ошибка с чтения файла B.txt" << endl;
 		return ERROR;
 	}
+	Product prTemp = parseProduct(temp);
 	cout << "B: ";
-	cout << temp;
+	cout << prTemp.countryIm;
 	while(getline(B, temp1)) {
-		//cout << parseProduct(temp).countryIm << " ";
-		if(stoi(temp) > stoi(temp1)) {
+		prTemp = parseProduct(temp);
+		Product prTemp1 = parseProduct(temp1);
+		if(prTemp > prTemp1) {
 			cout << "’";
 		}
 		cout << " ";
-		cout << temp1;
+		cout << prTemp1.countryIm;
 		temp = temp1;
 	}
 	cout << endl;
@@ -236,14 +258,17 @@ int breakingSeriesOnFile(fstream &A, fstream &B, fstream &C, uint64_t &Cf, uint6
 		cout << "Error::Ошибка с чтения файла C.txt" << endl;
 		return ERROR;
 	}
+	prTemp = parseProduct(temp);
 	cout << "C: ";
-	cout << temp;
+	cout << prTemp.countryIm;
 	while(getline(C, temp1)) {
-		if(stoi(temp) > stoi(temp1)) {
+		prTemp = parseProduct(temp);
+		Product prTemp1 = parseProduct(temp1);
+		if(prTemp > prTemp1) {
 			cout << "’";
 		}
 		cout << " ";
-		cout << temp1;
+		cout << prTemp1.countryIm;
 		temp = temp1;
 	}
 	cout << endl;
@@ -327,8 +352,7 @@ void breakingOnFile(fstream &A, fstream &B, fstream &C, int gap, uint64_t &Cf, u
 	cout << "B: ";
 	tempGap = gap;
 	while(getline(B, temp)) {
-		//cout << parseProduct(temp).countryIm << " ";
-		cout << temp << " ";
+		cout << parseProduct(temp).countryIm << " ";
 		tempGap--;
 		if(tempGap <= 0) {
 			tempGap = gap;
@@ -340,8 +364,7 @@ void breakingOnFile(fstream &A, fstream &B, fstream &C, int gap, uint64_t &Cf, u
 	cout << "C: ";
 	tempGap = gap;
 	while(getline(C, temp)) {
-		//cout << parseProduct(temp).countryIm << " ";
-		cout << temp << " ";
+		cout << parseProduct(temp).countryIm << " ";
 		tempGap--;
 		if(tempGap <= 0) {
 			tempGap = gap;
@@ -371,9 +394,10 @@ void mergeOnFile(fstream &A, fstream &B, fstream &C, int gap, uint64_t &Cf, uint
 		while(i < gap && j < gap && !C.eof() && !B.eof()) { // мы относительно подмножества сравниваем с подмножеством другого файла
 			Cf++;
 			Mf++;
-//		if(stoi(temp2)>stoi(temp1)) {
-//		//if(prA2.countryIm.compare(prA1.countryIm)>0) {
-			if(stoi(temp2) < stoi(temp1)) {
+
+			Product prA1 = parseProduct(temp1);
+			Product prA2 = parseProduct(temp2);
+			if(prA2 < prA1) {
 				A << temp2 << "\n";
 				getline(C, temp2);
 				j++;
@@ -434,8 +458,7 @@ void mergeOnFile(fstream &A, fstream &B, fstream &C, int gap, uint64_t &Cf, uint
 	cout << "A: ";
 	int tempGap = gap*2;
 	while(getline(A, temp)) {
-		//cout << parseProduct(temp).countryIm << " ";
-		cout << stoi(temp) << " ";
+		cout << parseProduct(temp).countryIm << " ";
 		tempGap--;
 		if(tempGap <= 0) {
 			tempGap = gap*2;
@@ -447,6 +470,7 @@ void mergeOnFile(fstream &A, fstream &B, fstream &C, int gap, uint64_t &Cf, uint
 	// endregion
 }
 
+//Двухфазная сортировка – это сортировка, в которой отдельно реализуется две фазы: распределение и слияние
 //Двухпутевым слиянием (два вспомогательных файла используется)
 void simpleMergingSort(fstream &A) {
 	uint64_t Cf = 0;
@@ -490,8 +514,7 @@ void simpleMergingSort(fstream &A) {
 
 // endregion
 
-void FourthTask::execute()
-{
+void FourthTask::execute() {
 	cout << "Выберите задание:\n>> 1 - Задание № 1(прямого слияния)\n>> 2 - Задание № 2(естественного слияния)\n>> Введите ID задания: ";
 	int taskSelected = Utils::getInput<int>();
 
