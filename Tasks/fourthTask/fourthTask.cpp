@@ -200,7 +200,6 @@ int breakingSeriesOnFile(fstream &A, fstream &B, fstream &C, uint64_t &Cf, uint6
 	getline(A, temp);
 	B << temp << "\n";
 	bool isBWrite = true;
-
 	int switchCounter = 0;
 	while(getline(A, temp1)) {
 		Cf++;

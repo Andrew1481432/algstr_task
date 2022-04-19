@@ -1,6 +1,17 @@
 #include <iostream>
 #include "Utils.h"
 
+
+string Utils::getColor(BACKCOLOR c) {
+    //https://stackoverflow.com/questions/33309136/change-color-in-os-x-console-output
+    return "\x1b["+std::to_string(static_cast<int>(c))+"m";
+}
+
+string Utils::getColor(FORECOLOR c) {
+    //https://stackoverflow.com/questions/33309136/change-color-in-os-x-console-output
+    return "\x1b["+std::to_string(static_cast<int>(c))+"m";
+}
+
 void Utils::clearStdAndShowErr() {
     std::cout << endl << "Введено некорректное значение!" << std::endl;
     std::cin.clear();
@@ -15,12 +26,12 @@ Type Utils::getInput(){
     Type number;
 
     tryEnterValue:
+    if(cin.eof()) throw std::invalid_argument("Input end!");
     if (std::is_same<Type, int>::value) {
         double tempValue;
         cin >> tempValue;
 
         if(tempValue != int(tempValue)) {
-            //cout << "debug: double" << endl;
             clearStdAndShowErr();
             goto tryEnterValue;
         } else {
@@ -31,7 +42,6 @@ Type Utils::getInput(){
     }
 
     if(std::cin.fail() || cin.get() != '\n') {
-        //cout << "debug: fall" << endl;
         clearStdAndShowErr();
         goto tryEnterValue;
     }
@@ -40,3 +50,5 @@ Type Utils::getInput(){
 
 // Explicit instantiation for int.
 template int Utils::getInput<int>();
+
+template double Utils::getInput<double>();
