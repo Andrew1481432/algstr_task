@@ -26,10 +26,10 @@ Type Utils::getInput(){
     Type number;
 
     tryEnterValue:
-    if(cin.eof()) throw std::invalid_argument("Input end!");
     if (std::is_same<Type, int>::value) {
         double tempValue;
         cin >> tempValue;
+        if(cin.eof()) throw std::invalid_argument("Input end!");
 
         if(tempValue != int(tempValue)) {
             clearStdAndShowErr();
@@ -39,6 +39,7 @@ Type Utils::getInput(){
         }
     } else {
         cin >> number;
+        if(cin.eof()) throw std::invalid_argument("Input end!");
     }
 
     if(std::cin.fail() || cin.get() != '\n') {

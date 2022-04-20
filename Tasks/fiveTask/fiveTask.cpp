@@ -198,7 +198,7 @@ namespace TaskFive {
             break;
 
             default:
-                cout << "Выбран некоррктный режим работы программы!" << endl;
+                cout << "Выбран некорректный режим работы программы!" << endl;
                 return;
         }
 
