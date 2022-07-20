@@ -5,6 +5,7 @@
 #include "fourthTask/fourthTask.h"
 #include "fiveTask/fiveTask.h"
 #include "sixTask/sixTask.h"
+#include "sevenTask/sevenTask.h"
 
 #include <iostream>
 
@@ -16,6 +17,7 @@ using namespace TaskThird;
 using namespace TaskFourth;
 using namespace TaskFive;
 using namespace TaskSix;
+using namespace TaskSeven;
 
 std::map<int, Task*> Task::tasks;
 
@@ -26,6 +28,7 @@ void Task::init() {
 	reg(new FourthTask());
 	reg(new FiveTask());
 	reg(new SixTask());
+	reg(new SevenTask());
 }
 
 bool Task::issetTasks() {

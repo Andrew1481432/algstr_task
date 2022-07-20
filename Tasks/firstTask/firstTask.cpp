@@ -135,9 +135,8 @@ void executeTask1() {
     auto arrayFirstAlg = copy(arr, N);
     int nFirst = N;
 
-    //delFirstMethod(arrayFirstAlg, nFirst, key);
-    //printArr(arrayFirstAlg, nFirst, "Массив первого алгоритма");
-
+    delFirstMethod(arrayFirstAlg, nFirst, key);
+    printArr(arrayFirstAlg, nFirst, "Массив первого алгоритма");
     // endregion
 
     // region второй алгоритм
@@ -184,27 +183,10 @@ void executeTask2() {
         }
     }
 
-    // region через обьект
-
-//    matrix mat(rows, cols);
-//    mat.setRand();
-//    double **arr = mat.m;
-
-    // region заполнение матрицы счетчиком
-    /*int counter = 0;
-    for(int i=0; i<rows; i++){ // rows
-        for(int j=0; j<cols; j++){ // cols
-            arr[i][j] = ++counter;
-        }
-    }*/
-    // endregion
-    //cout << mat;
-    // endregion
 
     int max = arr[0][0];
     for(int i=0; i<rows; i++) {
         for(int j=cols-1; j > i; j--) {
-            //arr[i][j] = -1; // debug
             if(arr[i][j]>max){
                 max = arr[i][j];
             }
