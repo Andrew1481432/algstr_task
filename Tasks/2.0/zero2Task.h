@@ -3,7 +3,6 @@
 #include <fstream>
 
 #include "../Task.h"
-
 #include "../../Utils/Utils.h"
 
 using namespace std;

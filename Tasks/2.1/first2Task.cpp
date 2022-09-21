@@ -1,7 +1,6 @@
 #include "first2Task.h"
 
 namespace first2Task {
-	string DIR_RESOURCES = "/Users/testerdev/Desktop/Учеба/Уник/семестр_3/сиаод/практика_1/";
 
 	std::string First2Task::getName(){
 		return "Практическая работа № 2.1";
@@ -11,8 +10,89 @@ namespace first2Task {
 		return "2.1";
 	}
 
+	void ex1() {
+		unsigned int digit = 0x5c0;
+		unsigned int mask = 1 << 31 | 1 << 30 | 1 << 29;
+
+		const int n = 32;
+		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
+		cout << "Маска: " << mask << " -- " << std::bitset<n>(mask).to_string() << endl;
+		cout << "Вывод: " << (digit|mask) << " -- " << std::bitset<n>((digit|mask)).to_string() << endl;
+	}
+
+	void ex2() {
+		cout << "Введите число:\n>> ";
+		unsigned int digit = Utils::getInput<int>();
+
+		const int n = 32;
+		unsigned int mask = 1<<14|1<<12|1<<3;
+		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
+		cout << "Маска: " << mask << " -- " << std::bitset<n>(mask).to_string() << endl;
+		digit &= mask;
+		cout << "Вывод: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
+	}
+
+	void ex3() {
+		cout << "Введите число:\n>> ";
+		unsigned int digit = Utils::getInput<int>();
+
+		const int n = 32;
+		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
+		cout << "Множитель: 4" << endl;
+		digit <<= 2;
+		cout << "Результат: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
+	}
+
+	void ex4() {
+		cout << "Введите число:\n>> ";
+		unsigned int digit = Utils::getInput<int>();
+
+		const int n = 32;
+		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
+		cout << "Делитель: 4" << endl;
+		digit >>= 2;
+		cout << "Результат: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
+	}
+
+	void ex5() {
+		cout << "Введите число:\n>> ";
+		unsigned int digit = Utils::getInput<int>();
+		unsigned int mask = 1 << 31;
+
+		const int n = 32;
+		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
+		cout << "Маска: " << mask << " -- " << std::bitset<n>(mask).to_string() << endl;
+		cout << "Вывод: " << (digit|mask) << " -- " << std::bitset<n>((digit|mask)).to_string() << endl;
+	}
+
 	int First2Task::execute(){
-		cout << "Hello World!" << endl;
+		cout << "Выберите задание :\n>> 1 - Задание № 1.\n>> 2 - Задание № 2.\n>> 3 - Задание № 3.\n>> 4 - Задание № 4.\n>> 5 - Задание № 5.\n>> Введите ID задания: ";
+		int taskSelected = Utils::getInput<int>();
+		switch (taskSelected) {
+			case 1:
+				ex1();
+				break;
+
+			case 2:
+				ex2();
+				break;
+
+			case 3:
+				ex3();
+				break;
+
+			case 4:
+				ex4();
+				break;
+
+			case 5:
+				ex5();
+				break;
+
+			default:
+				cout << "Такой задачи в занятии не существует!" << endl;
+				return EXIT_FAILURE;
+		}
 		return EXIT_SUCCESS;
 	}
 }
