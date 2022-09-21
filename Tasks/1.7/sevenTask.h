@@ -15,9 +15,9 @@ namespace TaskSeven {
 	class SevenTask: public Task {
 		virtual std::string getName() override;
 
-		virtual int getId() override;
+		virtual string getId() override;
 
-		void execute() override;
+		int execute() override;
 	};
 }
 

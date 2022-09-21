@@ -120,14 +120,14 @@ namespace TaskSeven {
 using namespace TaskSeven;
 
 std::string SevenTask::getName() {
-	return "Практическая работа № 7";
+	return "Практическая работа № 1.7";
 }
 
-int SevenTask::getId() {
-	return 7;
+string SevenTask::getId() {
+	return "1.7";
 }
 
-void SevenTask::execute() {
+int SevenTask::execute() {
 	cout << "Выберите задание:\n>> 1 - Задание № 1\n>> 2 - Задание № 2\n>> Введите ID задания: ";
 	int taskSelected = Utils::getInput<int>();
 	switch(taskSelected) {
@@ -142,4 +142,5 @@ void SevenTask::execute() {
 		default:
 			cout << "Задание "<<taskSelected<<" не найдено!" << endl;
 	}
+	return EXIT_SUCCESS;
 }

@@ -30,11 +30,11 @@ namespace TaskSecond {
 	};
 
 	std::string SecondTask::getName() {
-		return "Практическая работа № 2";
+		return "Практическая работа № 1.2";
 	}
 
-	int SecondTask::getId() {
-		return 2;
+	std::string SecondTask::getId() {
+		return "1.2";
 	}
 
 	void dumpChrono() {
@@ -209,7 +209,7 @@ namespace TaskSecond {
 		printArr(arr, N, "Отсортирован массив методом вставки");
 	}
 
-	void SecondTask::execute() {
+	int SecondTask::execute() {
 		srand(time(NULL));
 		cout << "Выберите задание:\n>> 1 - Задание № 1\n>> 2 - Задание № 2\n>> 3 - Задание № 3\n>> *4 - Задание № 4\n>> Введите ID задания: ";
 		int taskSelected = Utils::getInput<int>();
@@ -247,7 +247,7 @@ namespace TaskSecond {
 
 			default:
 				cout << "Режим работы не обнаружен!" << endl;
-				return;
+				return EXIT_FAILURE;
 		}
 
 		switch (taskSelected) {
@@ -266,7 +266,8 @@ namespace TaskSecond {
 
 			default:
 				cout << "Такой задачи в занятии не существует!" << endl;
-				return;
+				return EXIT_FAILURE;
 		}
+		return EXIT_SUCCESS;
 	}
 }

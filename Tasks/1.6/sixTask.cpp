@@ -6,14 +6,14 @@ using namespace Utils;
 
 namespace TaskSix {
     std::string SixTask::getName() {
-        return "Практическая работа № 6";
+        return "Практическая работа № 1.6";
     }
 
-    int SixTask::getId() {
-        return 6;
+    string SixTask::getId() {
+        return "1.6";
     }
 
-    void SixTask::execute() {
+    int SixTask::execute() {
 		cout << "Список:\n>> 1 - Создания списка вручную\n>> 2 - Использовать список установленный пресетом\n>> ";
         int workMode = Utils::getInput<int>();
 
@@ -177,7 +177,7 @@ namespace TaskSix {
             break;
             default:
                 cout << "Введено некорректное значение!" << endl;
-                return;
+                return EXIT_FAILURE;
         }
 		printTest();
 
@@ -236,5 +236,6 @@ namespace TaskSix {
 					exit = false;
 			}
 		}
+	    return EXIT_SUCCESS;
     }
 }

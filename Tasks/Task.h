@@ -7,7 +7,7 @@
 
 // Статика является фабрикой для задач
 class Task{
-        static std::map<int, Task*> tasks;
+        static std::map<std::string, Task*> tasks;
         static void reg(Task *);
 
     public:
@@ -15,12 +15,12 @@ class Task{
         static bool issetTasks();
 
         static void show();
-        static void run();
+        static int run();
 
         virtual std::string getName() = 0;
-        virtual int getId() = 0;
+        virtual std::string getId() = 0;
 
-        virtual void execute() = 0;
+        virtual int execute() = 0;
 };
 
 #endif //CIAOD_TASK_H

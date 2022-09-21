@@ -10,11 +10,11 @@ enum ModeWork {
 };
 
 std::string FirstTask::getName() {
-    return "Практическая работа № 1";
+    return "Практическая работа № 1.1";
 }
 
-int FirstTask::getId() {
-    return 1;
+string FirstTask::getId() {
+    return "1.1";
 }
 
 void dumpChrono() {
@@ -209,7 +209,7 @@ void executeTask2() {
 
 // endregion
 
-void FirstTask::execute() {
+int FirstTask::execute() {
     cout << "Выберите задание :\n>> 1 - Задание № 1.\n>> 2 - Задание № 2.\n>> Введите ID задания: ";
     int taskSelected = Utils::getInput<int>();
 
@@ -224,6 +224,7 @@ void FirstTask::execute() {
 
         default:
             cout << "Такой задачи в занятии не существует!" << endl;
-            return;
+            return EXIT_FAILURE;
     }
+	return EXIT_SUCCESS;
 }

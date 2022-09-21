@@ -1,11 +1,12 @@
 #include "Task.h"
-#include "firstTask/firstTask.h"
-#include "secondTask/secondTask.h"
-#include "thirdTask/thirdTask.h"
-#include "fourthTask/fourthTask.h"
-#include "fiveTask/fiveTask.h"
-#include "sixTask/sixTask.h"
-#include "sevenTask/sevenTask.h"
+
+#include "1.1/firstTask.h"
+#include "1.2/secondTask.h"
+#include "1.3/thirdTask.h"
+#include "1.4/fourthTask.h"
+#include "1.5/fiveTask.h"
+#include "1.6/sixTask.h"
+#include "1.7/sevenTask.h"
 
 #include <iostream>
 
@@ -19,9 +20,10 @@ using namespace TaskFive;
 using namespace TaskSix;
 using namespace TaskSeven;
 
-std::map<int, Task*> Task::tasks;
+std::map<string, Task*> Task::tasks;
 
 void Task::init() {
+	// region 1-ый семестр
     reg(new FirstTask());
     reg(new SecondTask());
     reg(new ThirdTask());
@@ -29,20 +31,27 @@ void Task::init() {
 	reg(new FiveTask());
 	reg(new SixTask());
 	reg(new SevenTask());
+	// endregion
+
+	// region 2-ой семестр
+	// TODO
+	// endregion
 }
 
 bool Task::issetTasks() {
     return !tasks.empty();
 }
 
-void Task::run() {
+int Task::run() {
     cout << ">> Введите номер работы: ";
-    int n = Utils::getInput<int>();
+    string val;
+	cin >> val;
 
-    if(tasks.find(n) != tasks.end()) { // isset()
-        tasks[n]->execute();
+    if(tasks.find(val) != tasks.end()) { // isset()
+        return tasks[val]->execute();
     } else {
         cout << "Введен неверный номер работы!" << endl;
+	    return EXIT_FAILURE;
     }
 }
 

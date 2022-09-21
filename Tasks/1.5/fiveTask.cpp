@@ -157,14 +157,14 @@ namespace TaskFive {
     // endregion
 
     std::string FiveTask::getName() {
-        return "Практическая работа № 5";
+        return "Практическая работа № 1.5";
     }
 
-    int FiveTask::getId() {
-        return 5;
+    string FiveTask::getId() {
+        return "1.5";
     }
 
-    void FiveTask::execute() {
+    int FiveTask::execute() {
         cout << "Запуск задачи:\n>> 1 - Создания нового списка вручную\n>> 2 - Использования уже готового списка для тестирования\n>> Выберите режим работы: ";
         int workMode = Utils::getInput<int>();
 
@@ -199,12 +199,13 @@ namespace TaskFive {
 
             default:
                 cout << "Выбран некорректный режим работы программы!" << endl;
-                return;
+                return EXIT_FAILURE;
         }
 
         l->print();
         cout << "x = ";
         int x = getInput<int>();
         cout << "Значение многочлена: " << l->getResultGorner(x) << endl;
+	    return EXIT_SUCCESS;
     }
 }

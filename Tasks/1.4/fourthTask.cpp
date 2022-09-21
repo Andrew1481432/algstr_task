@@ -4,12 +4,11 @@ using namespace TaskFourth;
 
 std::string FourthTask::getName()
 {
-	return "Практическая работа № 4";
+	return "Практическая работа № 1.4";
 }
 
-int FourthTask::getId()
-{
-	return 4;
+std::string FourthTask::getId(){
+	return "1.4";
 }
 
 enum TypeALG{
@@ -513,7 +512,7 @@ void simpleMergingSort(fstream &A) {
 
 // endregion
 
-void FourthTask::execute() {
+int FourthTask::execute() {
 	cout << "Выберите задание:\n>> 1 - Задание № 1(прямого слияния)\n>> 2 - Задание № 2(естественного слияния)\n>> Введите ID задания: ";
 	int taskSelected = Utils::getInput<int>();
 
@@ -521,7 +520,7 @@ void FourthTask::execute() {
 	A.open(DIR_RESOURCES + "A.txt", ios::in);
 	if (!A) {
 		cout << "Исходный файл(A.txt) не может быть прочитан!" << endl;
-		return;
+		return EXIT_FAILURE;
 	}
 	A.close();
 
@@ -534,4 +533,5 @@ void FourthTask::execute() {
 			naturalMergingSort(A);
 			break;
 	}
+	return EXIT_SUCCESS;
 }

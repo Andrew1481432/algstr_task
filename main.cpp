@@ -9,7 +9,7 @@ int main() {
     if(Task::issetTasks()) {
 	    restart:
         Task::show();
-        Task::run();
+        int statusExit = Task::run();
 
 	    int isStayInProgramm = 0;
 	    cout << "Вы хотите продолжить? 1-остаться 0-выход из программы: ";
@@ -32,9 +32,9 @@ int main() {
 			    fgetc(stdin);
 			    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	    }
+		return statusExit;
     } else {
         cout << "Задач не обнаружено!" << endl;
 	    return EXIT_FAILURE;
     }
-    return EXIT_SUCCESS;
 }

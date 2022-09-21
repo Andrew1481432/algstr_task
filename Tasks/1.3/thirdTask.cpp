@@ -21,11 +21,11 @@ namespace TaskThird {
 	};
 
 	std::string ThirdTask::getName() {
-		return "Практическая работа № 3";
+		return "Практическая работа № 1.3";
 	}
 
-	int ThirdTask::getId() {
-		return 3;
+	string ThirdTask::getId() {
+		return "1.3";
 	}
 
 	void printArr(unique_ptr<int[]> &arr, int N, const string& name = "") {
@@ -229,7 +229,7 @@ namespace TaskThird {
 
 	//14 Шелла со смещениями Р. Седжвика.
 	//Быстрая сортировка (Хоара)
-	void ThirdTask::execute() {
+	int ThirdTask::execute() {
 		cout << "test1" << endl;
 		cout << "Выберите задание:\n>> 1 - Задание № 1\n>> 2 - Задание № 2\n>> Введите ID задания: ";
 		int taskSelected = Utils::getInput<int>();
@@ -276,7 +276,7 @@ namespace TaskThird {
 
 			default:
 				cout << "Режим работы не обнаружен!" << endl;
-				return;
+				return EXIT_FAILURE;
 		}
 
 
@@ -294,7 +294,8 @@ namespace TaskThird {
 
 			default:
 				cout << "Такой задачи в занятии не существует!" << endl;
-				return;
+				return EXIT_FAILURE;
 		}
+		return EXIT_SUCCESS;
 	}
 }
