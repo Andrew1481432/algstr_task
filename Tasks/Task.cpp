@@ -7,6 +7,7 @@
 #include "1.5/fiveTask.h"
 #include "1.6/sixTask.h"
 #include "1.7/sevenTask.h"
+#include "2.0/zero2Task.h"
 
 #include <iostream>
 
@@ -19,6 +20,8 @@ using namespace TaskFourth;
 using namespace TaskFive;
 using namespace TaskSix;
 using namespace TaskSeven;
+
+using namespace zero2Task;
 
 std::map<string, Task*> Task::tasks;
 
@@ -34,7 +37,7 @@ void Task::init() {
 	// endregion
 
 	// region 2-ой семестр
-	// TODO
+	reg(new Zero2Task());
 	// endregion
 }
 
