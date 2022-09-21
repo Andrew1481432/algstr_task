@@ -12,7 +12,7 @@ namespace first2Task {
 
 	void ex1() {
 		unsigned int digit = 0x5c0;
-		unsigned int mask = 1 << 31 | 1 << 30 | 1 << 29;
+		unsigned int mask = 1<<31|1<<30|1<<29;
 
 		const int n = 32;
 		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
@@ -55,9 +55,19 @@ namespace first2Task {
 	}
 
 	void ex5() {
+		// Маска может быть инициализирована единицей в
+		// младшем разряде (вар 1) или единицей в старшем разряде (вар 2).
+
+		// Установить n-ый бит в 1, используя маску пункта 2
 		cout << "Введите число:\n>> ";
 		unsigned int digit = Utils::getInput<int>();
-		unsigned int mask = 1 << 31;
+		cout << "Введите номер бита(порядок начинается со старшего разряда)\n>> ";
+		unsigned int shift = Utils::getInput<int>();
+		if(shift > 31) {
+			cout << "Сдвиг не должен превышать 31!" << endl;
+			return;
+		}
+		unsigned int mask = 1 << (31-shift);
 
 		const int n = 32;
 		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
