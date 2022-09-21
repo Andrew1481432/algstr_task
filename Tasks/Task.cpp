@@ -7,7 +7,9 @@
 #include "1.5/fiveTask.h"
 #include "1.6/sixTask.h"
 #include "1.7/sevenTask.h"
+
 #include "2.0/zero2Task.h"
+#include "2.1/first2Task.h"
 
 #include <iostream>
 
@@ -22,6 +24,7 @@ using namespace TaskSix;
 using namespace TaskSeven;
 
 using namespace zero2Task;
+using namespace first2Task;
 
 std::map<string, Task*> Task::tasks;
 
@@ -38,6 +41,7 @@ void Task::init() {
 
 	// region 2-ой семестр
 	reg(new Zero2Task());
+	reg(new First2Task());
 	// endregion
 }
 
@@ -67,6 +71,9 @@ void Task::show() {
 }
 
 void Task::reg(Task *task) {
+	if(tasks.find(task->getId()) != tasks.end()) {
+		throw std::invalid_argument("This task has already been added");
+	}
     Task::tasks[task->getId()] = task;
 }
 
