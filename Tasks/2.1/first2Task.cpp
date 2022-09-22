@@ -61,13 +61,14 @@ namespace first2Task {
 		// Установить n-ый бит в 1, используя маску пункта 2
 		cout << "Введите число:\n>> ";
 		unsigned int digit = Utils::getInput<int>();
-		cout << "Введите номер бита(порядок начинается со старшего разряда)\n>> ";
+		cout << "Введите номер бита\n>> ";
 		unsigned int shift = Utils::getInput<int>();
 		if(shift > 31) {
 			cout << "Сдвиг не должен превышать 31!" << endl;
 			return;
 		}
-		unsigned int mask = 1 >> (31-shift);
+		unsigned int mask = 1<<31; // единицей в старшем разряде
+		mask >>= 31-shift; // Установить n-ый бит в 1
 
 		const int n = 32;
 		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
