@@ -67,7 +67,7 @@ namespace first2Task {
 			cout << "Сдвиг не должен превышать 31!" << endl;
 			return;
 		}
-		unsigned int mask = 1 << (31-shift);
+		unsigned int mask = 1 >> (31-shift);
 
 		const int n = 32;
 		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
