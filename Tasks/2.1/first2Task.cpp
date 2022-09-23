@@ -25,7 +25,7 @@ namespace first2Task {
 		unsigned int digit = Utils::getInput<int>();
 
 		const int n = 32;
-		unsigned int mask = 1<<14|1<<12|1<<3;
+		unsigned int mask = ~(1<<14|1<<12|1<<3);
 		cout << "Число: " << digit << " -- " << std::bitset<n>(digit).to_string() << endl;
 		cout << "Маска: " << mask << " -- " << std::bitset<n>(mask).to_string() << endl;
 		digit &= mask;
@@ -77,7 +77,7 @@ namespace first2Task {
 	}
 
 	int First2Task::execute(){
-		cout << "Выберите задание :\n>> 1 - Задание № 1.\n>> 2 - Задание № 2.\n>> 3 - Задание № 3.\n>> 4 - Задание № 4.\n>> 5 - Задание № 5.\n>> Введите ID задания: ";
+		cout << "Выберите задание:\n>> 1 - Задание № 1.\n>> 2 - Задание № 2.\n>> 3 - Задание № 3.\n>> 4 - Задание № 4.\n>> 5 - Задание № 5.\n>> Введите ID задания: ";
 		int taskSelected = Utils::getInput<int>();
 		switch (taskSelected) {
 			case 1:
