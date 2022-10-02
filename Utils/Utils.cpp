@@ -12,17 +12,6 @@ string Utils::getColor(FORECOLOR c) {
     return "\x1b["+std::to_string(static_cast<int>(c))+"m";
 }
 
-int Utils::getNumStr(string num) {
-	string result;
-	for(auto &s: num) {
-		if('0'<=s && s<='9') {
-			result.push_back(s);
-		}
-	}
-	cout << "debug: " << result << endl;
-	return stoi(result);
-}
-
 void Utils::clearStdAndShowErr() {
     std::cout << endl << "Введено некорректное значение!" << std::endl;
     std::cin.clear();

@@ -39,8 +39,6 @@ namespace Utils {
     string getColor(BACKCOLOR C);
     string getColor(FORECOLOR C);
 
-	int getNumStr(string);
-
     extern void clearStdAndShowErr();
 
     template<class Type>
