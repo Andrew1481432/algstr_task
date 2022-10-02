@@ -1,9 +1,6 @@
 #include "second2Task.h"
 #include "list/HashMap.h"
 
-// вариант 1: цепное хеширование
-// читательский абонемент
-// номер читательского (5-значное число) (ключ) - фио, адрес
 namespace second2Task {
 
 	std::string Second2Task::getName(){

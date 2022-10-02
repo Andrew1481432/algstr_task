@@ -12,8 +12,8 @@ namespace second2Task {
 class HashMap {
 		const int SIZE = 16;
 
-		int size; // размер Map (макс. кол-во записей)
-		int amount; // кол-во записей
+		int size; // размер таблицы
+		int amount; // количество элементов в таблице
 
 		Bucket* buckets = nullptr; // массив полезных данных
 
@@ -40,6 +40,7 @@ class HashMap {
 			delete []buckets;
 		}
 
+		// удалить из таблицы
 		void remove(int id) {
 			int code = this->getHash(id);
 
@@ -52,6 +53,7 @@ class HashMap {
 			}
 		}
 
+		// найти запись по ключу
 		Node* findNodeById(int id) {
 			int hashCode = this->getHash(id);
 			Bucket *bucket = &buckets[hashCode];
@@ -62,6 +64,7 @@ class HashMap {
 			}
 		}
 
+		// форматированный вывод таблицы в консоль
 		void show() {
 			bool flag;
 			for (int i = 0; i < size; i++) { // проходимся по buckets
@@ -82,6 +85,7 @@ class HashMap {
 			}
 		}
 
+		// добавить в таблицу
 		void insert(Node *node) {
 			if (this->checkOverflow()) {
 				this->resize();
@@ -97,10 +101,12 @@ class HashMap {
 
 	private:
 
+		// хэш-функция
 		int getHash(int id) {
 			return id % this->size;
 		}
 
+		// рехэширование таблицы
 		void resize() {
 			Bucket *bucket;
 			int oldSize = this->size;
@@ -144,7 +150,8 @@ class HashMap {
 			cout << "Рехеширование прошло успешно\n";
 		}
 
-		bool checkOverflow() { // проверка не переполнение
+		// проверка не переполнение
+		bool checkOverflow() {
 			return (((double)amount + 1) / size) >= 0.75;
 		}
 	};
@@ -153,8 +160,6 @@ class HashMap {
 		m.show();
 		return dfdf;
 	}
-
-
 }
 
 #endif //CIAOD_SECOND2_HASHMAP_H

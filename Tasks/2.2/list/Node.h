@@ -23,11 +23,13 @@ namespace second2Task {
 			this->address = address;
 		}
 
+		// хэш-функция
 		int getHash(int sizeArr) {
 			return this->id % sizeArr;
 		}
 
-		void show() { //вывод
+		// вывод
+		void show() {
 			if (id < 0) {
 				cout << "пусто";
 				return;
