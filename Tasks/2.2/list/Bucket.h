@@ -24,6 +24,8 @@ namespace second2Task {
 					ent = ent->nextEntry;
 				}
 				ent->nextEntry = entry;
+				// TODO debug!!! entry->nextEntry not equls null
+				entry->nextEntry = nullptr;
 			}
 		}
 
@@ -46,10 +48,12 @@ namespace second2Task {
 				if(ent->id == id) {
 					if(ent->nextEntry != nullptr) {
 						this->entry = ent->nextEntry;
+						ent->nextEntry = nullptr;
 					} else {
 						this->entry = nullptr;
 						hash = -1;
 					}
+
 					delete ent;
 					return true;
 				} else {
@@ -66,11 +70,7 @@ namespace second2Task {
 							nextNode = nextNode->nextEntry;
 						}
 						if(findNode != nullptr) {
-							if(findNode->nextEntry != nullptr) {
-								prevNode->nextEntry = findNode->nextEntry;
-							} else {
-								prevNode->nextEntry = nullptr;
-							}
+							prevNode->nextEntry = findNode->nextEntry;
 
 							delete findNode;
 							return true;

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <bitset>
 
 #include "../Task.h"
 #include "../../Utils/Utils.h"

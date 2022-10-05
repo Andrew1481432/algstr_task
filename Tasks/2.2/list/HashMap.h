@@ -91,7 +91,6 @@ class HashMap {
 				this->resize();
 			}
 			int hashCode = node->getHash(this->size);
-
 			Bucket *bucket = &this->buckets[hashCode];
 			bucket->hash = hashCode;
 			bucket->add(node);
@@ -116,33 +115,31 @@ class HashMap {
 			for(int i = 0; i < oldSize; i++) {
 				bucket = &this->buckets[i];
 
-				Node* ent = bucket->entry;
-				if(ent == nullptr) {
+				Node* curEntry = bucket->entry;
+				if(curEntry == nullptr) {
 					continue;
 				}
-				if(ent->nextEntry == nullptr) {
-					int hashCode = ent->getHash(this->size);
+				if(curEntry->nextEntry == nullptr) {
+					int hashCode = curEntry->getHash(this->size);
 					Bucket *newBucket = &newBuckets[hashCode];
 					newBucket->hash = hashCode;
-					newBucket->add(ent);
+					newBucket->add(curEntry);
 				} else{
 					Node *startEnt = bucket->entry;
-					Node *lastEnt;
+					Node *prevEnt;
 					do {
-						ent = startEnt;
-						lastEnt = startEnt;
-
-						while(ent->nextEntry != nullptr) {
-							lastEnt = ent;
-							ent = ent->nextEntry;
+						curEntry = prevEnt = startEnt;
+						while(curEntry->nextEntry != nullptr) {
+							prevEnt = curEntry;
+							curEntry = curEntry->nextEntry;
 						}
-						lastEnt->nextEntry = nullptr;
 
-						int hashCode = ent->getHash(this->size);
+						prevEnt->nextEntry = nullptr;
+						int hashCode = curEntry->getHash(this->size);
 						Bucket *newBucket = &newBuckets[hashCode];
 						newBucket->hash = hashCode;
-						newBucket->add(ent);
-					} while(startEnt != ent);
+						newBucket->add(curEntry);
+					} while(startEnt != curEntry);
 				}
 			}
 			delete []buckets;
