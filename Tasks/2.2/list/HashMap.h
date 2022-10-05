@@ -52,10 +52,7 @@ class HashMap {
 			int i = 0;
 			int hashCode = this->getHash(id, i);
 			Bucket *bucket = &this->buckets[hashCode];
-			if(!bucket->isClosed()) {
-				return nullptr;
-			}
-			while(bucket->isClosed() && bucket->getEntry()->id != id) {
+			while(!bucket->isClosed() || bucket->isClosed() && bucket->getEntry()->id != id) {
 				i++;
 				if(this->checkIterationLimit(i)) {
 					return nullptr;
