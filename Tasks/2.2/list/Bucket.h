@@ -9,8 +9,8 @@ namespace second2Task {
 	struct Bucket {
 	private:
 		bool closed = false;
-	public:
 		Node* entry = nullptr;
+	public:
 		int hash = -1;
 		int i = 0;
 
@@ -28,14 +28,18 @@ namespace second2Task {
 			this->i = i;
 		}
 
-		Node* get(int id) {
-
-			return nullptr;
+		Node* getEntry() {
+			return this->entry;
 		}
 
-		bool remove(int id) {
-
-			return false;
+		void remove() {
+			if(isClosed() && this->entry != nullptr) {
+				closed = false;
+				delete this->entry;
+				this->entry = nullptr;
+			} else {
+				throw std::invalid_argument("You are trying to remove a non-existent element");
+			}
 		}
 
 		void show() {

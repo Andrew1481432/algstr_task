@@ -59,9 +59,9 @@ namespace second2Task {
 				case 3: { // find
 					cout << "Введите ID записи для поиска: ";
 					int id = Utils::getInput<int>();
-					Node *node = hashMap->findNodeById(id);
-					if (node != nullptr){
-						node->show();
+					Bucket *bucket = hashMap->findBucketById(id);
+					if (bucket != nullptr) {
+						bucket->getEntry()->show();
 					} else {
 						cout << "Нет элемента с таким номером\n";
 					}

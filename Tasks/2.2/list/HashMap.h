@@ -26,24 +26,44 @@ class HashMap {
 		}
 
 		~HashMap() {
-
+			Bucket *bucket;
+			for(int i = 0; i < this->size; i++) {
+				bucket = &this->buckets[i];
+				if(bucket->isClosed()) {
+					bucket->remove();
+				}
+			}
+			delete []buckets;
 		}
 
-		// удалить из таблицы
+		// удалить Node из таблицы
 		void remove(int id) {
-
+			Bucket *bucket = findBucketById(id);
+			if(bucket != nullptr) {
+				bucket->remove();
+				cout << "Удаление прошло успешно!\n";
+			} else {
+				cout << "Нет элемента с таким номером\n";
+			}
 		}
 
-		// найти запись по ключу
-		Node* findNodeById(int id) {
-//			int hashCode = this->getHash(id);
-//			Bucket *bucket = &buckets[hashCode];
-//			if(bucket != nullptr && bucket->hash != -1) {
-//				return bucket->get(id);
-//			} else {
-//				return nullptr;
-//			}
-			return nullptr;
+		// найти ведро по ключу
+		Bucket* findBucketById(int id) {
+			int i = 0;
+			int hashCode = this->getHash(id, i);
+			Bucket *bucket = &this->buckets[hashCode];
+			if(!bucket->isClosed()) {
+				return nullptr;
+			}
+			while(bucket->isClosed() && bucket->getEntry()->id != id) {
+				i++;
+				if(this->checkIterationLimit(i)) {
+					return nullptr;
+				}
+				hashCode = this->getHash(id, i);
+				bucket = &this->buckets[hashCode];
+			}
+			return bucket;
 		}
 
 		// форматированный вывод таблицы в консоль
@@ -52,7 +72,7 @@ class HashMap {
 				cout << i + 1 << ") ";
 				Bucket *bucket = &buckets[i];
 				if (bucket->isClosed()) {
-					Node *node = bucket->entry;
+					Node *node = bucket->getEntry();
 					cout << "(";
 					bucket->show();
 					cout << ")";
@@ -76,7 +96,7 @@ class HashMap {
 			Bucket *bucket = &this->buckets[hashCode];
 			while(bucket->isClosed()) {
 				i++;
-				if(i>=30) {
+				if(this->checkIterationLimit(i)) {
 					// TODO
 					cout<<("ERROR : Suitable hashes with "+std::to_string(hashCode)+" for the table are busy\n");
 					cout<<("ERROR : You need to try rehash and try again to insert the node\n");
@@ -117,6 +137,15 @@ class HashMap {
 		 */
 		bool isFull() {
 			return this->amount == SIZE;
+		}
+
+		bool checkIterationLimit(int i) {
+			return i>amount;
+		}
+
+		// проверка не переполнение
+		bool checkOverflow() {
+			return (((double) amount + 1) / size) >= 0.75;
 		}
 
 		// рехэширование таблицы
