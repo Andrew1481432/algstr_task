@@ -15,18 +15,12 @@ namespace second2Task {
 		string name; // фио
 		string address; // адрес
 
-		Node* nextEntry;
-
 		Node(int id, string name, string address) {
 			this->id = id;
 			this->name = name;
 			this->address = address;
 		}
 
-		// хэш-функция
-		int getHash(int sizeArr) {
-			return this->id % sizeArr;
-		}
 
 		// вывод
 		void show() {

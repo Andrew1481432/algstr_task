@@ -26,59 +26,38 @@ class HashMap {
 		}
 
 		~HashMap() {
-			Bucket *bucket;
-			for(int i = 0; i < this->size; i++) {
-				bucket = &this->buckets[i];
-				Node* ent = bucket->entry;
-				Node* tempEnt;
-				while(ent != nullptr) {
-					tempEnt = ent;
-					ent = ent->nextEntry;
-					delete tempEnt;
-				}
-			}
-			delete []buckets;
+
 		}
 
 		// удалить из таблицы
 		void remove(int id) {
-			int code = this->getHash(id);
 
-			bool resultEx = buckets[code].remove(id);
-			if(resultEx) {
-				amount--; // уменьшаем кол-во записей
-				cout << "Удаление прошло успешно!\n";
-			} else {
-				cout << "Нет элемента с таким номером\n";
-			}
 		}
 
 		// найти запись по ключу
 		Node* findNodeById(int id) {
-			int hashCode = this->getHash(id);
-			Bucket *bucket = &buckets[hashCode];
-			if(bucket != nullptr && bucket->hash != -1) {
-				return bucket->get(id);
-			} else {
-				return nullptr;
-			}
+//			int hashCode = this->getHash(id);
+//			Bucket *bucket = &buckets[hashCode];
+//			if(bucket != nullptr && bucket->hash != -1) {
+//				return bucket->get(id);
+//			} else {
+//				return nullptr;
+//			}
+			return nullptr;
 		}
 
 		// форматированный вывод таблицы в консоль
 		void show() {
-			bool flag;
 			for (int i = 0; i < size; i++) { // проходимся по buckets
 				cout << i + 1 << ") ";
-				flag = false;
-				if (!buckets[i].isEmpty()) {
-					Node *node = buckets[i].entry;
-					while(node != nullptr) {
-						if (flag) cout << "      ";
-						node->show();
-						flag = true;
-
-						node = node->nextEntry;
-					}
+				Bucket *bucket = &buckets[i];
+				if (bucket->isClosed()) {
+					Node *node = bucket->entry;
+					cout << "(";
+					bucket->show();
+					cout << ")";
+					cout << "      ";
+					node->show();
 				} else {
 					cout << "-----пусто-----" << endl;
 				}
@@ -87,69 +66,63 @@ class HashMap {
 
 		// добавить в таблицу
 		void insert(Node *node) {
-			if (this->checkOverflow()) {
-				this->resize();
+			if(isFull()) { // temp
+				cout<<("ERROR : Hash Table Full\n");
+				return;
 			}
-			int hashCode = node->getHash(this->size);
+
+			int i = 0;
+			int hashCode = this->getHash(node->id, i);
 			Bucket *bucket = &this->buckets[hashCode];
+			while(bucket->isClosed()) {
+				i++;
+				if(i>=30) {
+					// TODO
+					cout<<("ERROR : Suitable hashes with "+std::to_string(hashCode)+" for the table are busy\n");
+					cout<<("ERROR : You need to try rehash and try again to insert the node\n");
+					return;
+				}
+				hashCode = this->getHash(node->id, i);
+				bucket = &this->buckets[hashCode];
+			}
 			bucket->hash = hashCode;
-			bucket->add(node);
+			bucket->add(node, i);
 
 			amount++;
 		}
 
 	private:
 
-		// хэш-функция
-		int getHash(int id) {
+		int getHash(int id, int i) {
+			//адрес=h(x)+ih2(x)
+			int key = (this->getHash1(id) + i*this->getHash2(id))%this->size;
+			if(key>SIZE-1) {
+				throw std::invalid_argument(std::to_string(key)+" > SIZE | "+"iteration: " + std::to_string(i));
+			}
+			return key;
+		}
+
+		int getHash1(int id) {
 			return id % this->size;
+		}
+
+		int getHash2(int id) {
+			return id % (this->size-1) + 1;
+		}
+
+		/**
+		 * todo temp function
+		 *
+		 * @deprecated
+		 */
+		bool isFull() {
+			return this->amount == SIZE;
 		}
 
 		// рехэширование таблицы
 		void resize() {
-			Bucket *bucket;
-			int oldSize = this->size;
-
-			this->size *= 2;
-			Bucket *newBuckets = new Bucket[this->size];
-			for(int i = 0; i < oldSize; i++) {
-				bucket = &this->buckets[i];
-
-				Node* curEntry = bucket->entry;
-				if(curEntry == nullptr) {
-					continue;
-				}
-				if(curEntry->nextEntry == nullptr) {
-					int hashCode = curEntry->getHash(this->size);
-					Bucket *newBucket = &newBuckets[hashCode];
-					newBucket->hash = hashCode;
-					newBucket->add(curEntry);
-				} else{
-					Node *startEnt = bucket->entry;
-					Node *prevEnt;
-					do {
-						curEntry = prevEnt = startEnt;
-						while(curEntry->nextEntry != nullptr) {
-							prevEnt = curEntry;
-							curEntry = curEntry->nextEntry;
-						}
-
-						prevEnt->nextEntry = nullptr;
-						int hashCode = curEntry->getHash(this->size);
-						Bucket *newBucket = &newBuckets[hashCode];
-						newBucket->hash = hashCode;
-						newBucket->add(curEntry);
-					} while(startEnt != curEntry);
-				}
-			}
-			delete []buckets;
-			this->buckets = newBuckets;
+			// TODO
 			cout << "Рехеширование прошло успешно\n";
-		}
-
-		// проверка не переполнение
-		bool checkOverflow() {
-			return (((double)amount + 1) / size) >= 0.75;
 		}
 	};
 

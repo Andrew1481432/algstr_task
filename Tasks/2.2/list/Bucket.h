@@ -7,78 +7,43 @@
 
 namespace second2Task {
 	struct Bucket {
-		int hash = -1;
-
+	private:
+		bool closed = false;
+	public:
 		Node* entry = nullptr;
+		int hash = -1;
+		int i = 0;
 
-		bool isEmpty() {
-			return hash == -1;
+		bool isClosed() {
+			return closed;
 		}
 
 		void add(Node *entry) {
-			if(this->entry == nullptr) {
-				this->entry = entry;
-			} else {
-				Node *ent = this->entry;
-				while(ent->nextEntry != nullptr) {
-					ent = ent->nextEntry;
-				}
-				ent->nextEntry = entry;
-				// TODO debug!!! entry->nextEntry not equls null
-				entry->nextEntry = nullptr;
-			}
+			this->entry = entry;
+			closed = true;
+		}
+
+		void add(Node *entry, int i) {
+			this->add(entry);
+			this->i = i;
 		}
 
 		Node* get(int id) {
-			if(this->entry != nullptr) {
-				Node *ent = this->entry;
-				while(ent != nullptr) {
-					if(ent->id == id) {
-						return ent;
-					}
-					ent = ent->nextEntry;
-				}
-			}
+
 			return nullptr;
 		}
 
 		bool remove(int id) {
-			if(this->entry != nullptr) {
-				Node *ent = this->entry;
-				if(ent->id == id) {
-					if(ent->nextEntry != nullptr) {
-						this->entry = ent->nextEntry;
-						ent->nextEntry = nullptr;
-					} else {
-						this->entry = nullptr;
-						hash = -1;
-					}
 
-					delete ent;
-					return true;
-				} else {
-					Node *prevNode = entry;
-					Node *nextNode = entry->nextEntry;
-					Node *findNode = nullptr;
-					if(nextNode != nullptr) {
-						while(nextNode != nullptr) {
-							if(nextNode->id == id) {
-								findNode = nextNode;
-								break;
-							}
-							prevNode = nextNode;
-							nextNode = nextNode->nextEntry;
-						}
-						if(findNode != nullptr) {
-							prevNode->nextEntry = findNode->nextEntry;
-
-							delete findNode;
-							return true;
-						}
-					}
-				}
-			}
 			return false;
+		}
+
+		void show() {
+			if (!closed) {
+				cout << "пусто";
+				return;
+			}
+			cout << "ХЕШ BUCKET: " << hash << "\tитерация: " << i;
 		}
 	};
 }

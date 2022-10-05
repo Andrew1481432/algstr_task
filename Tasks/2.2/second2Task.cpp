@@ -4,7 +4,7 @@
 namespace second2Task {
 
 	std::string Second2Task::getName(){
-		return "Практическая работа № 2.2";
+		return "Практическая работа № 2.2 (двойное хеширование)";
 	}
 
 	std::string Second2Task::getId() {
@@ -13,6 +13,14 @@ namespace second2Task {
 
 	int Second2Task::execute(){
 		auto* hashMap = new HashMap();
+		hashMap->insert(new Node(22, "Andrew 12", "jsjaksj"));
+		hashMap->insert(new Node(86, "Andrew", "sdvdsvs"));
+		hashMap->insert(new Node(85, "Andrew", "dsvsdsd"));
+		hashMap->insert(new Node(83292, "Andrew", "jsjaksj"));
+		hashMap->insert(new Node(93892, "Andrew", "jsjaksj"));
+		hashMap->insert(new Node(2342, "sdvcv", "jsjaksj"));
+		hashMap->insert(new Node(24242, "sdvsd", "jsjaksj"));
+
 		hashMap->insert(new Node(22, "Andrew 12", "jsjaksj"));
 		hashMap->insert(new Node(86, "Andrew", "sdvdsvs"));
 		hashMap->insert(new Node(85, "Andrew", "dsvsdsd"));
