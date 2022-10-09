@@ -94,7 +94,7 @@ class HashMap {
 			while(bucket->isClosed()) {
 				i++;
 				if(this->checkIterationLimit(i)) {
-					// TODO
+					// TODO add rehash
 					cout<<("ERROR : Suitable hashes with "+std::to_string(hashCode)+" for the table are busy\n");
 					cout<<("ERROR : You need to try rehash and try again to insert the node\n");
 					return;
