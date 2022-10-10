@@ -89,9 +89,9 @@ namespace third2Task {
 				if(str[keyForStr] != findStr[j]) {
 					int off = 0;
 					if(j == 0) {
-						off = matchTable[(int)str[keyForStr]]; // смещение, если не равен последний символ образа
+						off = matchTable[(int)str[keyForStr]]; // смещение, если не равен первый символ образа
 					} else {
-						off = matchTable[(int)findStr[j]]; // смещение, если не равен не последний символ образа
+						off = matchTable[(int)findStr[j]]; // смещение, если не равен не первый символ образа
 					}
 					i -= off; // смещение счетчика строки
 					isFind = false;
