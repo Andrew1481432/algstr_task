@@ -1,5 +1,4 @@
 #include "third2Task.h"
-#include <algorithm>
 
 namespace third2Task {
 
