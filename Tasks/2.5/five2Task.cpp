@@ -7,8 +7,6 @@
 
 namespace five2Task {
 
-	//VERTEX_COUNT - количество возможных вершин
-
 	std::string Five2Task::getName(){
 		return "Практическая работа № 2.5";
 	}
@@ -27,7 +25,7 @@ namespace five2Task {
 		}
 	};
 
-	// region система не пересекающихся множеств
+	// region система не пересекающихся множеств (DSU)
 	int parent[VERTEX_COUNT];
 	int groupSize[VERTEX_COUNT];
 	// endregion
@@ -77,18 +75,13 @@ namespace five2Task {
 		if (groupSize[x] < groupSize[y]) {
 			parent[leader1] = leader2;
 			groupSize[leader2] += groupSize[leader1];
-			//cout << "DEBUG::merge p[(ra) " << leader1 << "]" << "=(rb)" << leader2 << endl;
 		}else if (groupSize[leader2] < groupSize[leader1]) {
 			parent[leader2] = leader1; // родитель теперь leader1 у leader2
 			groupSize[leader1] += groupSize[leader2];
-			//cout << "DEBUG::merge p[(rb) " << leader2 << "]" << "=(ra)" << leader1 << endl;
 		} else {
 			parent[leader1] = leader2;
 			groupSize[leader2]++;
-			//cout << "DEBUG::merge p[(ra) " << leader1 << "]" << "=(rb)" << leader2 << endl;
-			//cout << "DEBUG::merge rk[(rb) " << leader2 << "]" << "++(" << groupSize[leader2] << ")" << endl;
 		}
-		//cout << endl;
 		return true;
 	}
 
