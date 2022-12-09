@@ -15,6 +15,7 @@
 #include "2.4/fourth2Task.h"
 #include "2.5/five2Task.h"
 #include "2.6/six2Task.h"
+#include "2.7/seven2Task.h"
 
 #include <iostream>
 
@@ -35,6 +36,7 @@ using namespace third2Task;
 using namespace fourth2Task;
 using namespace five2Task;
 using namespace six2Task;
+using namespace seven2Task;
 
 std::map<string, Task*> Task::tasks;
 
@@ -57,6 +59,7 @@ void Task::init() {
 	reg(new Fourth2Task());
 	reg(new Five2Task());
 	reg(new Six2Task());
+	reg(new Seven2Task());
 	// endregion
 }
 
